@@ -1,0 +1,120 @@
+[gd_scene load_steps=15 format=3 uid="uid://b7lwd8vow57sd"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_gadoa"]
+[ext_resource type="Texture2D" uid="uid://d1lggdkpeqmcg" path="res://art/pong_bg.png" id="2_i02ls"]
+[ext_resource type="PackedScene" uid="uid://dpx4qlgtjbedx" path="res://scenes/paddle.tscn" id="2_neiil"]
+[ext_resource type="PackedScene" uid="uid://bey2acbp0cvqv" path="res://scenes/ball.tscn" id="3_y2jiy"]
+[ext_resource type="PackedScene" uid="uid://4dlaecdg832y" path="res://scenes/paddle_p2.tscn" id="4_8vwg4"]
+[ext_resource type="PackedScene" uid="uid://cjxibjjhhvu3a" path="res://scenes/score_p1.tscn" id="5_mafpq"]
+[ext_resource type="PackedScene" uid="uid://7cm227c0mqlp" path="res://scenes/score_p2.tscn" id="6_ttbdp"]
+[ext_resource type="PackedScene" uid="uid://dsli0oom14wa" path="res://scenes/start.tscn" id="7_8wwpd"]
+[ext_resource type="PackedScene" uid="uid://fxrokcd5oiyr" path="res://scenes/unpause.tscn" id="8_8cn7r"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_avkx6"]
+size = Vector3(15, 720, 1)
+
+[sub_resource type="Gradient" id="Gradient_ori6b"]
+offsets = PackedFloat32Array(0.996753)
+colors = PackedColorArray(0, 0.0980392, 0.941176, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4lbi0"]
+gradient = SubResource("Gradient_ori6b")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cpc0x"]
+size = Vector2(1368, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qig3b"]
+size = Vector2(20, 688)
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_gadoa")
+
+[node name="PongBg" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+texture = ExtResource("2_i02ls")
+
+[node name="paddle" parent="." instance=ExtResource("2_neiil")]
+position = Vector2(54, 305)
+
+[node name="net" type="MeshInstance2D" parent="."]
+visible = false
+position = Vector2(640, 360)
+mesh = SubResource("BoxMesh_avkx6")
+texture = SubResource("GradientTexture1D_4lbi0")
+
+[node name="ball" parent="." instance=ExtResource("3_y2jiy")]
+visible = false
+position = Vector2(640, 300)
+
+[node name="topWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="topWall"]
+position = Vector2(636, 2.08165e-12)
+shape = SubResource("RectangleShape2D_cpc0x")
+
+[node name="bottomWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bottomWall"]
+position = Vector2(640, 720)
+shape = SubResource("RectangleShape2D_cpc0x")
+
+[node name="rightWall" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rightWall"]
+position = Vector2(1280, 360)
+shape = SubResource("RectangleShape2D_qig3b")
+
+[node name="leftWall" type="Area2D" parent="."]
+position = Vector2(-1280, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="leftWall"]
+position = Vector2(1280, 360)
+shape = SubResource("RectangleShape2D_qig3b")
+
+[node name="paddle_p2" parent="." instance=ExtResource("4_8vwg4")]
+position = Vector2(1216, 305)
+
+[node name="score_p1" parent="." instance=ExtResource("5_mafpq")]
+offset_left = 280.0
+offset_right = 362.0
+
+[node name="score_p2" parent="." instance=ExtResource("6_ttbdp")]
+offset_left = 920.0
+offset_right = 1002.0
+
+[node name="countTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="countdown" type="Label" parent="."]
+visible = false
+offset_left = 624.0
+offset_right = 665.0
+offset_bottom = 99.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 72
+text = "0"
+text_overrun_behavior = 1
+
+[node name="start" parent="." instance=ExtResource("7_8wwpd")]
+offset_left = 472.0
+offset_top = 472.0
+offset_right = 810.0
+offset_bottom = 677.0
+scale = Vector2(1, 1.00295)
+
+[node name="unpause" parent="." instance=ExtResource("8_8cn7r")]
+visible = false
+offset_left = 488.0
+offset_top = 240.0
+offset_right = 797.0
+offset_bottom = 347.0
+
+[connection signal="body_entered" from="rightWall" to="." method="_on_right_wall_body_entered"]
+[connection signal="body_entered" from="leftWall" to="." method="_on_left_wall_body_entered"]
+[connection signal="timeout" from="countTimer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="unpause" to="." method="_on_unpause_pressed"]
+
+[editable path="start"]

@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bey2acbp0cvqv"]
+
+[ext_resource type="Script" path="res://scripts/ball.gd" id="1_k5tbl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7x75g"]
+radius = 32.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_lsxtq"]
+radius = 32.0
+height = 64.0
+
+[sub_resource type="Gradient" id="Gradient_wh5ev"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.235294, 0.545098, 0.556863, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_73joq"]
+gradient = SubResource("Gradient_wh5ev")
+
+[node name="ball" type="CharacterBody2D"]
+collision_layer = 257
+collision_mask = 257
+script = ExtResource("1_k5tbl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7x75g")
+
+[node name="Mesh" type="MeshInstance2D" parent="."]
+mesh = SubResource("SphereMesh_lsxtq")
+texture = SubResource("GradientTexture2D_73joq")

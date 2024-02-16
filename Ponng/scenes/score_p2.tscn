@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://7cm227c0mqlp"]
+
+[ext_resource type="PackedScene" uid="uid://cjxibjjhhvu3a" path="res://scenes/score_p1.tscn" id="1_3so03"]
+
+[node name="Label" instance=ExtResource("1_3so03")]

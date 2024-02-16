@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://dpx4qlgtjbedx"]
+
+[ext_resource type="Script" path="res://scripts/paddle.gd" id="1_oqfph"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nht1i"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_suq0q"]
+size = Vector2(45, 180)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bfgmc"]
+size = Vector3(45, 180, 2.08165e-12)
+
+[sub_resource type="Gradient" id="Gradient_t6koy"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 0.733333, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_66223"]
+gradient = SubResource("Gradient_t6koy")
+fill = 2
+
+[node name="StaticBody2D" type="StaticBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_nht1i")
+script = ExtResource("1_oqfph")
+
+[node name="paddle" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_suq0q")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+mesh = SubResource("BoxMesh_bfgmc")
+texture = SubResource("GradientTexture2D_66223")
